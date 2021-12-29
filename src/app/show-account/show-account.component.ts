@@ -18,6 +18,9 @@ export class ShowAccountComponent implements OnInit {
   isOpenEditAccount = false;
   selectedAccount: Account | undefined;
   searchStr = '';
+  p = 1;
+  list = 10;
+  wantShow = 500;
   constructor(private accountService: AccountService, private router: Router) {
     // read data from file to localstorage
     this.unSubscribeAll = new Subject<any>();
@@ -37,7 +40,7 @@ export class ShowAccountComponent implements OnInit {
     this.accountService.getAccounts(createParamSearch({
       last_name: this.searchStr,
       start: 0,
-      limit: 25
+      limit: this.wantShow
     }))
       .pipe(takeUntil(this.unSubscribeAll))
       .subscribe((resp: Account[]) => {

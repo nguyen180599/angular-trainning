@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0px;
+  padding: 0px;
+}
+pagination-template {
+  margin: 0;
+}
+.ngx-pagination {
+  padding: 5px 10px;
+  margin-bottom: 0;
+}
+
+

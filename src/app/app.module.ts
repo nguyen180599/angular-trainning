@@ -9,10 +9,10 @@ import {HttpClientModule} from '@angular/common/http';
 import { ShowAccountComponent } from './show-account/show-account.component';
 import { AddComponent } from './form-controls/add/add.component';
 import { EditComponent } from './form-controls/edit/edit.component';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule],
+  imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule, NgxPaginationModule],
   declarations: [AppComponent, ShowAccountComponent, AddComponent, EditComponent],
   bootstrap: [AppComponent],
   providers: [

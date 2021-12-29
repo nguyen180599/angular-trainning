@@ -1,11 +1,21 @@
 <div class="account-list">
   <div class="header">
     <button class="btn btn-primary addAccount" routerLink="/add">Add Account</button>
-    <div class="search">
-      <label id="button-addon4" type="button" class="btn btn-link text-info" for="search"><i class="fa fa-search"></i></label>
-      <input (change)="search()" [(ngModel)]="searchStr" aria-describedby="button-addon4" id="search" class="form-control bg-none border-0"
-             placeholder="Search by lastname" type="text">
+    <div class="header-right">
+      <input type="number" [(ngModel)]="wantShow" class="form-select" (ngModelChange)="search()" placeholder="Nhập số lượng tài khoản">
+      <select [(ngModel)]="list" class="btn form-select">
+        <option value="10" selected>Show 10 account</option>
+        <option value="15">Show 15 account</option>
+        <option value="20">Show 20 account</option>
+        <option value="25">Show 25 account</option>
+      </select>
+      <div class="search">
+        <label id="button-addon4" type="button" class="btn btn-link text-info" for="search"><i class="fa fa-search"></i></label>
+        <input (change)="search()" [(ngModel)]="searchStr" aria-describedby="button-addon4" id="search" class="form-control bg-none border-0"
+               placeholder="Search by lastname" type="text">
+      </div>
     </div>
+
   </div>
   <table class="table table-striped table-bordered table-hover">
     <thead>
@@ -19,8 +29,8 @@
       <th width="200">Thao tác</th>
     </tr>
     </thead>
-    <tbody class="scroll">
-    <tr *ngFor="let account of account; let index=index">
+    <tbody>
+    <tr *ngFor="let account of account | paginate: { itemsPerPage: list, currentPage: p }; let index=index">
       <td>{{index + 1}}</td>
       <td>{{account.firstname}} {{account.lastname}}</td>
       <td>{{account.age}}</td>
@@ -34,5 +44,8 @@
     </tr>
     </tbody>
   </table>
+  <div class="pagination">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
 </div>
 
