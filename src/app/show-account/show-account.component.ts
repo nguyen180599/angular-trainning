@@ -19,7 +19,7 @@ export class ShowAccountComponent implements OnInit {
   selectedAccount: Account | undefined;
   searchStr = '';
   p = 1;
-  list = 10;
+  list = 25;
   wantShow = 500;
   constructor(private accountService: AccountService, private router: Router) {
     // read data from file to localstorage
