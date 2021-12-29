@@ -1,3 +1,4 @@
+
 export type Account = {
   _id: string;
   account_number: string;
@@ -23,6 +24,7 @@ export function createAccount(data: Partial<Account>): Account {
 export type ParamSearch = {
   limit: number;
   start: number;
+  _id: string;
   last_name: string;
   first_name: string;
   email: string;

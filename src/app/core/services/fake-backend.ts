@@ -101,6 +101,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       paramSearch = createParamSearch({
         limit: parseInt(params.get('limit') || '10', 0),
         start: parseInt(params.get('start') || '0', 0),
+        _id: params.has('_id') ? params.get('_id') || '' : '',
         last_name: params.has('last_name') ? params.get('last_name') || '' : '',
         address: params.has('address') ? params.get('address') || '' : '',
         email: params.has('email') ? params.get('email') || '' : '',
@@ -108,6 +109,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         gender: params.has('gender') ? params.get('gender') || '' : '',
       });
       let rs = accountList;
+      if (paramSearch._id !== '') {
+        rs = rs.filter((x: Account) => x._id.includes(paramSearch._id));
+      }
       if (paramSearch.last_name !== '') {
         rs = rs.filter((x: Account) => x.lastname.includes(paramSearch.last_name));
       }
