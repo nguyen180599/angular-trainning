@@ -1,7 +1,7 @@
 <mat-progress-bar mode="indeterminate" [hidden]="!isLoading"></mat-progress-bar>
 <div class="container">
   <div class="row header">
-    <div class="col-8">
+    <div class="col-lg-8 col-sm-6">
       <button mat-raised-button color="primary"
               (click)="openAddDialog('add')"
       >Add account
@@ -10,14 +10,14 @@
               (click)="openAddDialog('filter')"
       >Filter</button>
     </div>
-    <mat-form-field class="col-2">
+    <mat-form-field class="col-lg-2 col-sm-3">
       <mat-label>Paging mode</mat-label>
       <mat-select [(ngModel)]="pagingMode">
         <mat-option value="paging">Paging</mat-option>
         <mat-option value="scroll">Scroll</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="col-2 ">
+    <mat-form-field class="col-lg-2 col-sm-3">
       <mat-label>Total row</mat-label>
       <input matInput type="number" [(ngModel)]="total" (change)="totalRow = total">
     </mat-form-field>
