@@ -46,6 +46,9 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     AddEditDeleteComponent,
     TableComponent
   ],
+  entryComponents: [
+    AddEditDeleteComponent, 
+  ],
   bootstrap: [AppComponent],
   providers: [
     // provider used to create fake backend,
