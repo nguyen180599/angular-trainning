@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowAccountComponent } from './show-account.component';
+import { AddEditDeleteComponent } from './add-edit-delete.component';
 
-describe('ShowAccountComponent', () => {
-  let component: ShowAccountComponent;
-  let fixture: ComponentFixture<ShowAccountComponent>;
+describe('AddEditDeleteComponent', () => {
+  let component: AddEditDeleteComponent;
+  let fixture: ComponentFixture<AddEditDeleteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShowAccountComponent ]
+      declarations: [ AddEditDeleteComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShowAccountComponent);
+    fixture = TestBed.createComponent(AddEditDeleteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

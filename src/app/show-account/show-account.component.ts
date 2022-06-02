@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {AccountService} from '../core/services/account.service';
-import {Observable, Subject} from 'rxjs';
 import {Account, createAccount, createParamSearch} from '../core/model/account.model';
-import {takeUntil} from 'rxjs/operators';
-import {Accounts} from '../core/data/account';
-import * as faker from 'faker';
-import {Router} from '@angular/router';
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {AddEditDeleteComponent} from "../add-edit-delete/add-edit-delete.component";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {flip} from "ngx-bootstrap/positioning/modifiers";
+import {LoadData, TableComponent} from "./table/table.component";
+import {delay} from "rxjs/operators";
 
 @Component({
   selector: 'app-show-account',
@@ -13,56 +16,94 @@ import {Router} from '@angular/router';
   styleUrls: ['./show-account.component.scss']
 })
 export class ShowAccountComponent implements OnInit {
+  @ViewChild(TableComponent) tableComponent!: TableComponent;
+  listColumn = ['stt', 'name', 'age', 'email', 'address', 'gender', 'action'];
   account: Account[] = [];
-  unSubscribeAll: Subject<any>;
-  isOpenEditAccount = false;
-  selectedAccount: Account | undefined;
-  searchStr = '';
-  p = 1;
-  list = 25;
-  wantShow = 500;
-  constructor(private accountService: AccountService, private router: Router) {
-    // read data from file to localstorage
-    this.unSubscribeAll = new Subject<any>();
-    this.loadDataToLocal();
+  filter = {
+    last_name: '',
+    first_name: '',
+    gender: '',
+    email: '',
+    address: '',
+  };
+  isLoading = false;
+  pagingMode = 'paging';
+  total!: number;
+  totalRow = 1000;
+  isFilter = false;
+
+  constructor(
+    private accountService: AccountService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {
+
   }
 
   ngOnInit(): void {
-    this.getAllAccount();
+    // this.getAllAccount();
+    this.total = this.totalRow;
   }
 
-  loadDataToLocal(): void {
-    localStorage.setItem('accounts', JSON.stringify(Accounts));
-  }
-
-
-  getAllAccount(): void {
+  getAllAccount(key: string): void {
     this.accountService.getAccounts(createParamSearch({
-      last_name: this.searchStr,
+      ...this.filter,
       start: 0,
-      limit: this.wantShow
-    }))
-      .pipe(takeUntil(this.unSubscribeAll))
-      .subscribe((resp: Account[]) => {
-        this.account = resp;
+      limit: this.totalRow
+    })).pipe(delay(500))
+      .subscribe((res: Account[]) => {
+        this.account = res;
+        this.isLoading = false;
+        if (key !== '') {
+          this.snackBarToart(key);
+        }
       }, (err: Error) => {
         this.account = [];
       });
   }
 
-  deleteAccount(acc: Account): void {
-    // console.log("xoa" + acc._id);
-    this.accountService.deleteAccount(acc)
-      .pipe(takeUntil(this.unSubscribeAll))
-      .subscribe((resp: Account[]) => {
-        // angular.module('', [require('angular-messages')]);
-        this.getAllAccount();
-      }, (err: Error) => {
-        alert('Cannot found');
-      });
+  onLoaded($event: LoadData): void {
+    if ($event.value) {
+      this.isLoading = true;
+      this.getAllAccount($event.key);
+    }
+    // console.log($event)
   }
 
-  search(): void {
-    this.getAllAccount();
+  snackBarToart(key: string): void {
+    this.snackBar.open(`${key.toUpperCase()} SUCCESS!`, '', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 2000,
+      panelClass: ['bg-info', 'p-4', 'text-light']
+    });
   }
+
+  // @ts-ignore
+  openAddDialog(key: string): void {
+    const dialogRef = this.dialog.open(AddEditDeleteComponent, {
+      data: key === 'filter' ? {action: key, el: this.filter} : {action: key},
+      panelClass: ['w-50']
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res === 'success') {
+        this.snackBarToart('add account');
+      } else {
+        if (res) {
+          this.filter = res;
+        } else {
+          this.filter = {
+            last_name: '',
+            first_name: '',
+            gender: '',
+            email: '',
+            address: '',
+          };
+        }
+        this.getAllAccount('');
+      }
+    });
+  }
+
 }

@@ -12,3 +12,21 @@ pagination-template {
 }
 
 
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: #F4F7FE;;
+}
+
+app-table table {
+  thead {
+    position: sticky;
+    top: 85px;
+    z-index: 999;
+  }
+  tbody tr:hover {
+    background: #F4F7FE;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,76 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+  <ng-container matColumnDef="stt">
+    <th mat-header-cell *matHeaderCellDef>
+      <div class="w-100 d-flex justify-content-start fs-4 fw-bold">No.</div>
+    </th>
+    <td mat-cell *matCellDef="let element; index as index">
+      {{pagingMode === 'paging' ? paginator.pageIndex * paginator.pageSize + index + 1 : index + 1}}
+    </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>
+      Name
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.firstname + ' ' + element.lastname}} </td>
+  </ng-container>
+
+  <!-- Age Column -->
+  <ng-container matColumnDef="age">
+    <th mat-header-cell *matHeaderCellDef>
+      <div class="w-100 d-flex justify-content-start fs-4 fw-bold">Age</div>
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+  </ng-container>
+
+  <!-- Email Column -->
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef class="pl-3 fs-4 fw-bold"> Email</th>
+    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+  </ng-container>
+
+  <!-- Address Column -->
+  <ng-container matColumnDef="address">
+    <th mat-header-cell *matHeaderCellDef class="p-3 fs-4 fw-bold"> Address</th>
+    <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+  </ng-container>
+
+  <!-- Gender Column -->
+  <ng-container matColumnDef="gender">
+    <th mat-header-cell *matHeaderCellDef class="fs-4 fw-bold"> Gender</th>
+    <td mat-cell *matCellDef="let element"> {{element.gender === 'M' ? 'Male' : 'Female'}} </td>
+  </ng-container>
+
+  <!-- Action Column -->
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef class="col-lg-1 col-sm-3 p-4"> Action</th>
+    <td mat-cell *matCellDef="let element" class="col-lg-1 col-sm-3">
+      <div class="d-flex justify-content-around">
+        <button (click)="openDialog(element, 'delete'); $event.stopPropagation()"
+                mat-raised-button color="warn"
+                class="mr-2"
+        >
+          Delete
+        </button>
+        <button (click)="openDialog(element, 'edit'); $event.stopPropagation()"
+                mat-stroked-button color="primary"
+        >
+          Edit
+        </button>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="column"></tr>
+  <tr mat-row *matRowDef="let row; columns: column;"
+      class="table-hover"
+      (click)="openDialog(row, 'view')"
+  ></tr>
+</table>
+<mat-paginator #paginator
+               [hidden]="pagingMode !== 'paging'"
+               [pageSize]="10"
+               [pageSizeOptions]="[5, 10, 20]"
+>
+</mat-paginator>

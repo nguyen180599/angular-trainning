@@ -113,19 +113,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         rs = rs.filter((x: Account) => x._id.includes(paramSearch._id));
       }
       if (paramSearch.last_name !== '') {
-        rs = rs.filter((x: Account) => x.lastname.includes(paramSearch.last_name));
+        rs = rs.filter((x: Account) => x.lastname.toLowerCase().includes(paramSearch.last_name));
       }
       if (paramSearch.first_name !== '') {
-        rs = rs.filter((x: Account) => x.firstname.includes(paramSearch.first_name));
+        rs = rs.filter((x: Account) => x.firstname.toLowerCase().includes(paramSearch.first_name));
       }
       if (paramSearch.address !== '') {
-        rs = rs.filter((x: Account) => x.address.includes(paramSearch.address));
+        rs = rs.filter((x: Account) => x.address.toLowerCase().includes(paramSearch.address));
       }
       if (paramSearch.email !== '') {
-        rs = rs.filter((x: Account) => x.email.includes(paramSearch.email));
+        rs = rs.filter((x: Account) => x.email.toLowerCase().includes(paramSearch.email));
       }
       if (paramSearch.gender !== '') {
-        rs = rs.filter((x: Account) => x.gender.includes(paramSearch.gender));
+        rs = rs.filter((x: Account) => x.gender.toLowerCase().includes(paramSearch.gender));
       }
       if (rs.length < paramSearch.start) {
         return ok([]);

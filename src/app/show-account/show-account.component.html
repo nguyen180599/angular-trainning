@@ -1,51 +1,32 @@
-<div class="account-list">
-  <div class="header">
-    <button class="btn btn-primary addAccount" routerLink="/add">Add Account</button>
-    <div class="header-right">
-      <input type="number" [(ngModel)]="wantShow" class="form-select" (ngModelChange)="search()" placeholder="Nhập số lượng tài khoản">
-      <select [(ngModel)]="list" class="btn form-select">
-        <option value="15" >Show 15 account</option>
-        <option value="25" selected>Show 25 account</option>
-        <option value="30">Show 30 account</option>
-        <option value="40">Show 40 account</option>
-      </select>
-      <div class="search">
-        <label id="button-addon4" type="button" class="btn btn-link text-info" for="search"><i class="fa fa-search"></i></label>
-        <input (change)="search()" [(ngModel)]="searchStr" aria-describedby="button-addon4" id="search" class="form-control bg-none border-0"
-               placeholder="Search by lastname" type="text">
-      </div>
+<mat-progress-bar mode="indeterminate" [hidden]="!isLoading"></mat-progress-bar>
+<div class="container">
+  <div class="row header">
+    <div class="col-8">
+      <button mat-raised-button color="primary"
+              (click)="openAddDialog('add')"
+      >Add account
+      </button>
+      <button mat-button color="primary"
+              (click)="openAddDialog('filter')"
+      >Filter</button>
     </div>
+    <mat-form-field class="col-2">
+      <mat-label>Paging mode</mat-label>
+      <mat-select [(ngModel)]="pagingMode">
+        <mat-option value="paging">Paging</mat-option>
+        <mat-option value="scroll">Scroll</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="col-2 ">
+      <mat-label>Total row</mat-label>
+      <input matInput type="number" [(ngModel)]="total" (change)="totalRow = total">
+    </mat-form-field>
 
   </div>
-  <table class="table table-striped table-bordered table-hover">
-    <thead>
-    <tr class="sticky">
-      <th width="60">#</th>
-      <th>Name</th>
-      <th width="70">Age</th>
-      <th>Gender</th>
-      <th>City</th>
-      <th>Balance</th>
-      <th width="200">Thao tác</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let account of account | paginate: { itemsPerPage: list, currentPage: p }; let index=index">
-      <td>{{index + 1}}</td>
-      <td>{{account.firstname}} {{account.lastname}}</td>
-      <td>{{account.age}}</td>
-      <td>{{account.gender == 'M' ? 'Male' : 'Female'}}</td>
-      <td>{{account.city}}</td>
-      <td style="font-weight: bold;">{{account.balance}}</td>
-      <td class="action">
-        <button class="btn btn-info" routerLink="/edit/{{account._id}}">Edit</button>
-        <button (click)="deleteAccount(account)" class="btn btn-danger">Delete</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <div class="pagination">
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
-  </div>
+  <app-table [column]="listColumn"
+             [total]="totalRow"
+             (isLoaded)="onLoaded($event)"
+             [pagingMode]="pagingMode"
+             [row]="account"
+  ></app-table>
 </div>
-
