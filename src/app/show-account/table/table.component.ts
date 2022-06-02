@@ -15,6 +15,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {AddEditDeleteComponent} from "../../add-edit-delete/add-edit-delete.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatSort} from "@angular/material/sort";
 export interface LoadData {
   value: boolean;
   key: string;
@@ -28,6 +29,7 @@ export interface LoadData {
 export class TableComponent implements OnInit, OnChanges {
   @Input() row!: Account[];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort, {read: MatSort, static: true}) sort!: MatSort;
   @Input() column!: string[];
   @Input() total!: number;
   @Output() isLoaded: EventEmitter<LoadData> = new EventEmitter<LoadData>();
@@ -51,6 +53,7 @@ export class TableComponent implements OnInit, OnChanges {
 
     if (changes.row) {
       this.dataSource = new MatTableDataSource<Account>(this.row);
+      this.dataSource.sort = this.sort;
       if (this.pagingMode === 'paging') {
         this.dataSource.paginator = this.paginator;
       }

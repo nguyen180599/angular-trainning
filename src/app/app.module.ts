@@ -20,6 +20,7 @@ import {MatSelectModule} from "@angular/material/select";
 import { MatSnackBarModule} from "@angular/material/snack-bar";
 import { TableComponent } from './show-account/table/table.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     MatInputModule,
     MatSelectModule,
     MatSnackBarModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSortModule
   ],
   declarations: [
     AppComponent,
@@ -47,7 +49,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     TableComponent
   ],
   entryComponents: [
-    AddEditDeleteComponent, 
+    AddEditDeleteComponent,
   ],
   bootstrap: [AppComponent],
   providers: [
